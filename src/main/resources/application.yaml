@@ -3,9 +3,9 @@ spring:
     name: cq
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${NEON_HOST}:${NEON_PORT}/${NEON_DB}?sslmode=require
-    username: ${NEON_USER}
-    password: ${NEON_PASSWORD}
+    url: ${DATABASE_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
 
 
   jpa:
