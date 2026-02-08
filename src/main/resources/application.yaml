@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: cq
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${NEON_HOST}:${NEON_PORT}/${NEON_DB}?sslmode=require
+    username: ${NEON_USER}
+    password: ${NEON_PASSWORD}
+
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
