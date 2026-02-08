@@ -1,20 +1,13 @@
-# Build stage
-FROM eclipse-temurin:17-jdk AS build
+# ---- build stage ----
+FROM gradle:8.14.2-jdk17 AS build
 WORKDIR /app
+COPY . .
+RUN gradle clean bootJar --no-daemon
 
-COPY gradlew /app/gradlew
-COPY gradle/ /app/gradle/
-COPY build.gradle settings.gradle /app/
-RUN chmod +x /app/gradlew
-
-RUN /app/gradlew --no-daemon dependencies || true
-
-COPY . /app/
-RUN /app/gradlew build -x test --no-daemon
-
-# Runtime stage
-FROM eclipse-temurin:17-jre-alpine
+# ---- run stage ----
+FROM eclipse-temurin:17-jre
 WORKDIR /app
-COPY --from=build /app/build/libs/*.jar /app/app.jar
+COPY --from=build /app/build/libs/*.jar app.jar
+ENV PORT=8080
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java","-jar","/app/app.jar"]
